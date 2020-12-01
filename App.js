@@ -17,7 +17,7 @@ export default function App() {
 
         a {
             text-decoration: none;
-        }  
+        }
     `;
 
     return (

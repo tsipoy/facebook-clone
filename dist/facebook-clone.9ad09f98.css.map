@@ -1,1 +1,1 @@
-{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA;AACA;AACA","file":"facebook-clone.9ad09f98.css","sourceRoot":"..","sourcesContent":["body {\r\n    margin: 0;\r\n}"]}
+{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"facebook-clone.9ad09f98.css","sourceRoot":"..","sourcesContent":["body {\r\n    margin: 0;\r\n}\r\n\r\n\r\n@media(min-width: 700px) {\r\n    #root {\r\n        margin: auto;\r\n        max-width: 700px\r\n    }\r\n}"]}

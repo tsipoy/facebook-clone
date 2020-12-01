@@ -1,10 +1,11 @@
-import React, {useContext} from 'react';
-import {Context} from "./Context";
+import React, { useContext } from "react";
+import { Context } from "./Context";
 import Styled from "styled-components";
+import Comment from "./Comment";
 
 export default function FacebookContent() {
-    const {facebookData, handleSubmit, newComment} = useContext(Context);
-    const MainContent = Styled.div `
+  const { facebookData, currentUser } = useContext(Context);
+  const MainContent = Styled.div`
         ul {
             display: flex;
             flex-direction: row;
@@ -18,7 +19,7 @@ export default function FacebookContent() {
         }
 
         img {
-            width: 50%;
+            width: 100%;
             height: auto;
         }
 
@@ -28,48 +29,70 @@ export default function FacebookContent() {
         }
     `;
 
-    const mapData = facebookData.map((data) => ( 
-        <MainContent key={data.id}>
-            <ul>
-                <li>
-                    <img src={data.profilePicture} className="profilePicture" />
-                    <span>{data.userName}</span>
-                </li>
-                <li>{data.date}</li>
-            </ul>
-            <p>{data.text}</p>
-            <img src={data.image} />
-            <p>{data.likes}</p>
-            <div>
-                <ul>
-                    <li>
-                        <img src={data.profilePicture1} className="profilePicture" />
-                        <span>{data.userCommented1}</span>
-                    </li>
-                    <li>{data.commentedDate}</li>
-                </ul>
-                <p>{data.textMessage1}</p>
-            </div>
-            <div>
-                <ul>
-                    <li><img src={data.profilePicture2} className="profilePicture" />{data.userCommented2}</li>
-                    <li>{data.commentedDate2}</li>
-                </ul>
-                <p>{data.textMessage2}</p>
-            </div>
-        </MainContent>
-    ));
+  const User = Styled.ul`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline-start: 0;
     
+    li {
+        list-style: none;
+    }
+
+    .profilePicture {
+      max-width: 10%;
+      border-radius: 50%;
+    }
+  `;
+
+  const mapCurrentUser = currentUser.map((user) => {
     return (
+      <User>
+        <li key={user.id}>
+          <img src={user.profilePicture} className="profilePicture" />
+          <span>{user.userName}</span>
+        </li>
+        <li>{user.date}</li>
+      </User>
+    );
+  });
+
+  const mapData = facebookData.map((data) => {
+    return (
+      <MainContent>
+        <p key={data.postId}>{data.text}</p>
+        <img src={data.image} alt="commentor" />
         <div>
-            {mapData}
-            <p>{newComment.comment}</p>
-            <div>
-                <form onSubmit={handleSubmit}>
-                    <input type="text" name="comment"/>
-                    <button type="submit">Post</button>
-                </form>
-            </div>
+          {data.comments.map((comment) => {
+            return (
+              <nav key={comment.id}>
+                <ul>
+                  <li>
+                    <img
+                      src={comment.profilePicture}
+                      className="profilePicture"
+                    />
+                    <span>{comment.userCommented}</span>
+                  </li>
+                  <li>{comment.commentedDate}</li>
+                </ul>
+                <ul>
+                  <li>{comment.textMessage}</li>
+                  <li>{comment.message}</li>
+                </ul>
+              </nav>
+            );
+          })}
         </div>
-    )
+        <Comment />
+      </MainContent>
+    );
+  });
+  return (
+    <>
+      {mapCurrentUser}
+      {mapData}
+    </>
+  );
 }

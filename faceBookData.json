@@ -1,36 +1,34 @@
 [
     {
-        "userName": "Zaza",
         "text": "Good morning everyone! New day again",
-        "profilePicture": "https://iili.io/FwyQ4I.jpg",
-        "date": 1606293015000,
+        "postId": 1606824401671,
         "id": 1606717683413,
         "image" : "https://i.ibb.co/yhH1Fcx/IMG-20201129-162326.jpg",
-        "likes": 0,
-        "userCommented1": "Ifaliana",
-        "textMessage1": "True!",
-        "userCommented2": "Fytia",
-        "textMessage2": "Good morning",
-        "commentedDate1": 1606730315000,
-        "commentedDate2": 1606745110000,
-        "profilePicture1": "https://iili.io/FN9swb.jpg",
-        "profilePicture2": "https://iili.io/FN9Zox.jpg"
-    },
-    {
-        "userName": "Safidy",
-        "text": "Everything is possible",
-        "profilePicture": "https://iili.io/FwyUkg.jpg",
-        "date": 1606463489000,
-        "id": 1606718389043,
-        "image" : "https://iili.io/FwvVn4.jpg",
-        "likes": 0,
-        "userCommented1": "Loic",
-        "textMessage1": "Nice pic!",
-        "userCommented2": "Shaun",
-        "textMessage2": "Beautiful!",
-        "commentedDate1": 1606732450000,
-        "commentedDate2": 1606745110000,
-        "profilePicture1": "https://iili.io/FN9rc7.jpg",
-        "profilePicture2": "https://iili.io/FN9SP2.jpg"
+        "likes": [
+            {
+                "likedId": 1606824509250,
+                "userId": 1606824535563
+            },
+            {
+                "likedId": 1606824580089,
+                "userId": 1606824614708
+            }
+        ],
+        "comments": [
+            {
+                "id": 1606800789249,
+                "userCommented": "Ifaliana",
+                "textMessage": "Hi!",
+                "commentedDate": "12/08/2020",
+                "profilePicture": "https://iili.io/FN9swb.jpg"
+            },
+            {
+                "id": 1606800819374,
+                "userCommented": "Fytia",
+                "textMessage": "Good morning",
+                "commentedDate": "13/08/2020",
+                "profilePicture": "https://iili.io/FN9Zox.jpg"
+            }
+        ]
     }
 ]
