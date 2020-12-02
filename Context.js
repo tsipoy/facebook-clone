@@ -24,10 +24,14 @@ function ContextProvider({children}) {
         const newComment = {
             id: Date.now(),
             textMessage: inputValue,
-            commentedDate: Date.now()
+            commentedDate: "14/08/2020",
+            userCommented: "Loic",
+            profilePicture: "https://iili.io/FN9rc7.jpg",
+            likes: []
         }
         const filtered = facebookData.find(data => data.id)
         setNewComment([...filtered.comments, newComment])
+        filtered.comments = [...filtered.comments, newComment];
         form.reset();
     }
     console.log(newComment);
@@ -42,7 +46,8 @@ function ContextProvider({children}) {
             id: Date.now(),
             image: inputValue,
             text: text,
-            comments: []
+            comments: [],
+            likes: []
         }
 
         setFacebookData([...facebookData, newLists])
