@@ -3,7 +3,31 @@ import Styled from "styled-components";
 import { Context } from './Context';
 
 export default function AddingPost() {
-    const {submitForm} = useContext(Context)
+    const {state, dispatch} = useContext(Context);
+
+    const submitForm = (e) => {
+        e.preventDefault();
+        let form = e.target;
+        let text = form.thought.value;
+        let inputValue = form.pictureUrl.value;
+    
+        const newLists = {
+          id: Date.now(),
+          image: inputValue,
+          text: text,
+          comments: [],
+          likes: [],
+          // commentedDate: "14/08/2020",
+          // userCommented: "Loic",
+          // profilePicture: "https://iili.io/FN9rc7.jpg",
+        };
+    
+        dispatch({
+          type: "All_DATA",
+          allFacebookData: [...facebookData, newLists],
+        });
+      };
+
     const FormWrapper = Styled.div `
         label {
             display: block;
@@ -12,7 +36,7 @@ export default function AddingPost() {
         }
 
         input {
-            margin-inline-start: 32px
+            margin-inline-start: 32px;
         }
     `;
     return (
@@ -21,7 +45,7 @@ export default function AddingPost() {
                 <label>New Post: </label>
                 <textarea name="thought" placeholder="Say what’s on your mind..." rows="5" cols="33"></textarea>
                 <label>Picture url:
-                    <input type="url" name="pictureUrl"/>
+                    <input type="url" name="pictureUrl" placeholder="Add a comment... "/>
                 </label>
                 <button>Post</button>
             </form>

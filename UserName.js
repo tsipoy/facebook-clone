@@ -1,9 +1,35 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Context } from './Context';
+import Styled from "styled-components";
+
 
 export default function UserName() {
+    // const {} = useContext(Context);
+    const FormWrapper = Styled.div`
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            padding-block-end: 16px;
+        }
+
+        input {
+            margin-inline-start: 16px;
+        }
+    `;
+
     return (
-        <div>
-            <h3>UserName</h3>
-        </div>
+        <FormWrapper>
+            <form>
+                <label>Username: 
+                    <input type="text" name="username" placeholder="Type your name here"/>
+                </label>
+                <label>Profile Picture: 
+                    <input type="url" name="profilePicture" placeholder="Past a URL here" />
+                </label>
+            </form>
+        </FormWrapper>
     )
 }

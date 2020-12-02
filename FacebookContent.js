@@ -4,7 +4,8 @@ import Styled from "styled-components";
 import Comment from "./Comment";
 
 export default function FacebookContent() {
-  const { facebookData, currentUser } = useContext(Context);
+  const {state, dispatch} = useContext(Context);
+  const { facebookData, currentUser } = state;
   const MainContent = Styled.div`
         ul {
             display: flex;
@@ -46,6 +47,7 @@ export default function FacebookContent() {
     }
   `;
 
+  console.log(currentUser);
   const mapCurrentUser = currentUser.map((user) => {
     return (
       <User>
@@ -58,10 +60,10 @@ export default function FacebookContent() {
     );
   });
 
-  const mapData = facebookData.map((data) => {
-    return (
-      <MainContent>
-        <p key={data.postId}>{data.text}</p>
+  // const mapData = facebookData.map((data) => {
+    // return (
+    //   <MainContent>
+        {/* <p key={data.postId}>{data.text}</p>
         <img src={data.image} alt="commentor" />
         <div>
           {data.comments.map((comment) => {
@@ -84,15 +86,15 @@ export default function FacebookContent() {
               </nav>
             );
           })}
-        </div>
-        <Comment />
-      </MainContent>
-    );
-  });
+        </div> */}
+        {/* <Comment />
+      </MainContent> */}
+    // );
+  // });
   return (
     <>
       {mapCurrentUser}
-      {mapData}
+      {/* {mapData} */}
     </>
   );
 }

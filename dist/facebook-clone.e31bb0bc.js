@@ -33915,58 +33915,57 @@ exports.Context = Context;
 function ContextProvider({
   children
 }) {
-  const [facebookData, setFacebookData] = (0, _react.useState)(_faceBookData.default);
-  const [currentUser, setCurrentUser] = (0, _react.useState)(_currentUserData.default);
-  const [newComment, setNewComment] = (0, _react.useState)({});
+  // const [facebookData, setFacebookData] = useState(allFacebookData);
+  // const [currentUser, setCurrentUser] = useState(currentData)
+  // const [newComment, setNewComment] = useState({});
+  // const [state, dispatch] = reducer();
+  // const {facebookData, currentUser, newComment} = state;
+  const [state, dispatch] = (0, _react.useReducer)((state, action) => {
+    switch (action.type) {
+      case "All_DATA":
+        return { ...state,
+          facebookData: state.allFacebookData
+        };
+        break;
+
+      case "CURRENT_USER":
+        return { ...state,
+          currentUser: state.currentUserData
+        };
+        break;
+
+      case "NEW_COMMENT":
+        return { ...state,
+          newComment: state.newComment
+        };
+
+      default:
+        return state;
+    }
+  }, {
+    facebookData: [],
+    currentUser: [],
+    newComment: {}
+  });
   (0, _react.useEffect)(() => {
-    setFacebookData(_faceBookData.default);
-    setCurrentUser(_currentUserData.default);
-  }, []);
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    const form = e.target;
-    console.log(form);
-    let inputValue = form.comment.value; // setNewComment(inputValue);
-
-    const newComment = {
-      id: Date.now(),
-      textMessage: inputValue,
-      commentedDate: "14/08/2020",
-      userCommented: "Loic",
-      profilePicture: "https://iili.io/FN9rc7.jpg",
-      likes: []
-    };
-    const filtered = facebookData.find(data => data.id);
-    setNewComment([...filtered.comments, newComment]);
-    filtered.comments = [...filtered.comments, newComment];
-    form.reset();
-  };
-
-  console.log(newComment);
-
-  const submitForm = e => {
-    e.preventDefault();
-    let form = e.target;
-    let text = form.thought.value;
-    let inputValue = form.pictureUrl.value;
-    const newLists = {
-      id: Date.now(),
-      image: inputValue,
-      text: text,
-      comments: [],
-      likes: []
-    };
-    setFacebookData([...facebookData, newLists]);
-  };
-
+    // setFacebookData(allFacebookData)
+    // setCurrentUser(currentData)
+    dispatch({
+      type: "All_DATA",
+      facebookData: [..._faceBookData.default]
+    });
+    dispatch({
+      type: "CURRENT_USER",
+      currentUser: [..._currentUserData.default]
+    });
+    dispatch({
+      type: "NEW_COMMENT"
+    });
+  }, [facebookData, currentUser]);
   return /*#__PURE__*/_react.default.createElement(Context.Provider, {
     value: {
-      facebookData,
-      handleSubmit,
-      newComment,
-      submitForm,
-      currentUser
+      state,
+      dispatch
     }
   }, children);
 }
@@ -35909,8 +35908,34 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function Comment() {
   const {
-    handleSubmit
-  } = (0, _react.useContext)(_Context.Context);
+    state,
+    dispatch
+  } = (0, _react.useContext)(_Context.Context); // const { newComment } = state;
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const form = e.target;
+    console.log(form);
+    let inputValue = form.comment.value; // setNewComment(inputValue);
+
+    const newComment = {
+      id: Date.now(),
+      textMessage: inputValue,
+      commentedDate: "14/08/2020",
+      userCommented: "Loic",
+      profilePicture: "https://iili.io/FN9rc7.jpg",
+      likes: []
+    };
+    const findId = facebookData.find(data => data.id);
+    dispatch({
+      type: "All_DATA",
+      allFacebookData: [...findId.comments, newComment]
+    });
+    findId.comments = [...findId.comments, newComment];
+    form.reset();
+    console.log(newComment);
+  };
+
   return /*#__PURE__*/_react.default.createElement("form", {
     onSubmit: handleSubmit
   }, /*#__PURE__*/_react.default.createElement("input", {
@@ -35944,9 +35969,13 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function FacebookContent() {
   const {
+    state,
+    dispatch
+  } = (0, _react.useContext)(_Context.Context);
+  const {
     facebookData,
     currentUser
-  } = (0, _react.useContext)(_Context.Context);
+  } = state;
   const MainContent = _styledComponents.default.div`
         ul {
             display: flex;
@@ -35986,6 +36015,7 @@ function FacebookContent() {
       border-radius: 50%;
     }
   `;
+  console.log(currentUser);
   const mapCurrentUser = currentUser.map(user => {
     return /*#__PURE__*/_react.default.createElement(User, null, /*#__PURE__*/_react.default.createElement("li", {
       key: user.id
@@ -35993,23 +36023,43 @@ function FacebookContent() {
       src: user.profilePicture,
       className: "profilePicture"
     }), /*#__PURE__*/_react.default.createElement("span", null, user.userName)), /*#__PURE__*/_react.default.createElement("li", null, user.date));
-  });
-  const mapData = facebookData.map(data => {
-    return /*#__PURE__*/_react.default.createElement(MainContent, null, /*#__PURE__*/_react.default.createElement("p", {
-      key: data.postId
-    }, data.text), /*#__PURE__*/_react.default.createElement("img", {
-      src: data.image,
-      alt: "commentor"
-    }), /*#__PURE__*/_react.default.createElement("div", null, data.comments.map(comment => {
-      return /*#__PURE__*/_react.default.createElement("nav", {
-        key: comment.id
-      }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("img", {
-        src: comment.profilePicture,
-        className: "profilePicture"
-      }), /*#__PURE__*/_react.default.createElement("span", null, comment.userCommented)), /*#__PURE__*/_react.default.createElement("li", null, comment.commentedDate)), /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, comment.textMessage), /*#__PURE__*/_react.default.createElement("li", null, comment.message)));
-    })), /*#__PURE__*/_react.default.createElement(_Comment.default, null));
-  });
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, mapCurrentUser, mapData);
+  }); // const mapData = facebookData.map((data) => {
+  // return (
+  //   <MainContent>
+
+  {
+    /* <p key={data.postId}>{data.text}</p>
+    <img src={data.image} alt="commentor" />
+    <div>
+     {data.comments.map((comment) => {
+       return (
+         <nav key={comment.id}>
+           <ul>
+             <li>
+               <img
+                 src={comment.profilePicture}
+                 className="profilePicture"
+               />
+               <span>{comment.userCommented}</span>
+             </li>
+             <li>{comment.commentedDate}</li>
+           </ul>
+           <ul>
+             <li>{comment.textMessage}</li>
+             <li>{comment.message}</li>
+           </ul>
+         </nav>
+       );
+     })}
+    </div> */
+  }
+  {
+    /* <Comment />
+    </MainContent> */
+  } // );
+  // });
+
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, mapCurrentUser);
 }
 },{"react":"node_modules/react/index.js","./Context":"Context.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js","./Comment":"Comment.js"}],"AddingPost.js":[function(require,module,exports) {
 "use strict";
@@ -36033,8 +36083,31 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function AddingPost() {
   const {
-    submitForm
+    state,
+    dispatch
   } = (0, _react.useContext)(_Context.Context);
+
+  const submitForm = e => {
+    e.preventDefault();
+    let form = e.target;
+    let text = form.thought.value;
+    let inputValue = form.pictureUrl.value;
+    const newLists = {
+      id: Date.now(),
+      image: inputValue,
+      text: text,
+      comments: [],
+      likes: [] // commentedDate: "14/08/2020",
+      // userCommented: "Loic",
+      // profilePicture: "https://iili.io/FN9rc7.jpg",
+
+    };
+    dispatch({
+      type: "All_DATA",
+      allFacebookData: [...facebookData, newLists]
+    });
+  };
+
   const FormWrapper = _styledComponents.default.div`
         label {
             display: block;
@@ -36043,7 +36116,7 @@ function AddingPost() {
         }
 
         input {
-            margin-inline-start: 32px
+            margin-inline-start: 32px;
         }
     `;
   return /*#__PURE__*/_react.default.createElement(FormWrapper, null, /*#__PURE__*/_react.default.createElement("form", {
@@ -36055,7 +36128,8 @@ function AddingPost() {
     cols: "33"
   }), /*#__PURE__*/_react.default.createElement("label", null, "Picture url:", /*#__PURE__*/_react.default.createElement("input", {
     type: "url",
-    name: "pictureUrl"
+    name: "pictureUrl",
+    placeholder: "Add a comment... "
   })), /*#__PURE__*/_react.default.createElement("button", null, "Post")));
 }
 },{"react":"node_modules/react/index.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js","./Context":"Context.js"}],"UserName.js":[function(require,module,exports) {
@@ -36066,14 +36140,45 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = UserName;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
+
+var _Context = require("./Context");
+
+var _styledComponents = _interopRequireDefault(require("styled-components"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
 function UserName() {
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h3", null, "UserName"));
+  // const {} = useContext(Context);
+  const FormWrapper = _styledComponents.default.div`
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            padding-block-end: 16px;
+        }
+
+        input {
+            margin-inline-start: 16px;
+        }
+    `;
+  return /*#__PURE__*/_react.default.createElement(FormWrapper, null, /*#__PURE__*/_react.default.createElement("form", null, /*#__PURE__*/_react.default.createElement("label", null, "Username:", /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    name: "username",
+    placeholder: "Type your name here"
+  })), /*#__PURE__*/_react.default.createElement("label", null, "Profile Picture:", /*#__PURE__*/_react.default.createElement("input", {
+    type: "url",
+    name: "profilePicture",
+    placeholder: "Past a URL here"
+  }))));
 }
-},{"react":"node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./Context":"Context.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36167,7 +36272,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57634" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50182" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

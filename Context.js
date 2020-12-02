@@ -1,64 +1,50 @@
-import React, {useState, useEffect} from 'react';
-import FacebookData from './faceBookData.json'
-import currentData from "./currentUserData.json";
-
+import React, { useEffect, useReducer } from "react";
+import allFacebookData from "./faceBookData.json";
+import currentUserData from "./currentUserData.json";
 
 const Context = React.createContext();
 
-function ContextProvider({children}) {
-    const [facebookData, setFacebookData] = useState(FacebookData);
-    const [currentUser, setCurrentUser] = useState(currentData)
-    const [newComment, setNewComment] = useState({}); 
+function ContextProvider({ children }) {
+  // const [facebookData, setFacebookData] = useState(allFacebookData);
+  // const [currentUser, setCurrentUser] = useState(currentData)
+  // const [newComment, setNewComment] = useState({});
 
-    useEffect(() => {
-        setFacebookData(FacebookData)
-        setCurrentUser(currentData)
-    }, [])
+  // const [state, dispatch] = reducer();
+  // const {facebookData, currentUser, newComment} = state;
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const form = e.target;
-        console.log(form);
-        let inputValue = form.comment.value;
-        // setNewComment(inputValue);
-        const newComment = {
-            id: Date.now(),
-            textMessage: inputValue,
-            commentedDate: "14/08/2020",
-            userCommented: "Loic",
-            profilePicture: "https://iili.io/FN9rc7.jpg",
-            likes: []
-        }
-        const filtered = facebookData.find(data => data.id)
-        setNewComment([...filtered.comments, newComment])
-        filtered.comments = [...filtered.comments, newComment];
-        form.reset();
+  const [state, dispatch] = useReducer(
+    (state, action) => {
+      switch (action.type) {
+        case "All_DATA":
+          return { ...state, facebookData: state.allFacebookData };
+          break;
+        case "CURRENT_USER":
+          return { ...state, currentUser: state.currentUserData };
+          break;
+        case "NEW_COMMENT":
+          return { ...state, newComment: state.newComment };
+        default:
+          return state;
+      }
+    },
+    {
+      facebookData: [],
+      currentUser: [],
+      newComment: {},
     }
-    console.log(newComment);
+  );
 
-    const submitForm = (e) => {
-        e.preventDefault();
-        let form = e.target;
-        let text = form.thought.value;
-        let inputValue = form.pictureUrl.value;
+  useEffect(() => {
+    // setFacebookData(allFacebookData)
+    // setCurrentUser(currentData)
+    dispatch({ type: "All_DATA", facebookData: [...allFacebookData] });
+    dispatch({ type: "CURRENT_USER", currentUser: [...currentUserData] });
+    dispatch({ type: "NEW_COMMENT" });
+  }, [facebookData, currentUser]);
 
-        const newLists = {
-            id: Date.now(),
-            image: inputValue,
-            text: text,
-            comments: [],
-            likes: []
-        }
-
-        setFacebookData([...facebookData, newLists])
-    }
-
-    return (
-        <Context.Provider value={{facebookData, handleSubmit, newComment, submitForm, currentUser}}>
-            {children}
-        </Context.Provider>
-    )
+  return (
+    <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
+  );
 }
 
-export {ContextProvider, Context};
-
+export { ContextProvider, Context };
