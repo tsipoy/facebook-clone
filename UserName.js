@@ -4,7 +4,8 @@ import Styled from "styled-components";
 
 
 export default function UserName() {
-    // const {} = useContext(Context);
+    const {state, dispatch} = useContext(Context);
+    
     const FormWrapper = Styled.div`
         form {
             display: flex;
@@ -22,6 +23,7 @@ export default function UserName() {
 
     return (
         <FormWrapper>
+            <p>Options: </p>
             <form>
                 <label>Username: 
                     <input type="text" name="username" placeholder="Type your name here"/>

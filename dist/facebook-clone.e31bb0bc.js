@@ -33919,17 +33919,8 @@ console.log(initialValue);
 function ContextProvider({
   children
 }) {
-  // const [state, dispatch] = reducer();
-  // const {facebookData, currentUser, newComment} = state;
-  //  cons [state, dispatch] = useReducer(func, initialValue)
   const [state, dispatch] = (0, _react.useReducer)((state, action) => {
     switch (action.type) {
-      // case "All_DATA":
-      //   return { ...state, facebookData: state.postData };
-      //   break;
-      // case "CURRENT_USER":
-      //   return { ...state, currentUser: state.currentUserData };
-      //   break;
       case "NEW_COMMENT":
         const newPosts = state.facebookData.map(post => {
           console.log(action);
@@ -36050,7 +36041,7 @@ function Feed() {
       }), /*#__PURE__*/_react.default.createElement("span", null, comment.userCommented)), /*#__PURE__*/_react.default.createElement("li", null, comment.commentedDate)), /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, comment.textMessage), /*#__PURE__*/_react.default.createElement("li", null, comment.message)));
     })), /*#__PURE__*/_react.default.createElement(_Comment.default, null));
   });
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, mapData);
+  return /*#__PURE__*/_react.default.createElement("div", null, mapData);
 }
 },{"react":"node_modules/react/index.js","./Context":"Context.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js","./Comment":"Comment.js"}],"AddingPost.js":[function(require,module,exports) {
 "use strict";
@@ -36143,7 +36134,10 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function UserName() {
-  // const {} = useContext(Context);
+  const {
+    state,
+    dispatch
+  } = (0, _react.useContext)(_Context.Context);
   const FormWrapper = _styledComponents.default.div`
         form {
             display: flex;
@@ -36158,7 +36152,7 @@ function UserName() {
             margin-inline-start: 16px;
         }
     `;
-  return /*#__PURE__*/_react.default.createElement(FormWrapper, null, /*#__PURE__*/_react.default.createElement("form", null, /*#__PURE__*/_react.default.createElement("label", null, "Username:", /*#__PURE__*/_react.default.createElement("input", {
+  return /*#__PURE__*/_react.default.createElement(FormWrapper, null, /*#__PURE__*/_react.default.createElement("p", null, "Options: "), /*#__PURE__*/_react.default.createElement("form", null, /*#__PURE__*/_react.default.createElement("label", null, "Username:", /*#__PURE__*/_react.default.createElement("input", {
     type: "text",
     name: "username",
     placeholder: "Type your name here"

@@ -11,18 +11,9 @@ const initialValue = {
 console.log(initialValue);
 
 function ContextProvider({ children }) {
-  // const [state, dispatch] = reducer();
-  // const {facebookData, currentUser, newComment} = state;
-  //  cons [state, dispatch] = useReducer(func, initialValue)
   const [state, dispatch] = useReducer(
     (state, action) => {
       switch (action.type) {
-        // case "All_DATA":
-        //   return { ...state, facebookData: state.postData };
-        //   break;
-        // case "CURRENT_USER":
-        //   return { ...state, currentUser: state.currentUserData };
-        //   break;
         case "NEW_COMMENT":
           const newPosts = state.facebookData.map((post) => {
             console.log(action);

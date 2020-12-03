@@ -94,9 +94,8 @@ export default function Feed() {
     );
   });
   return (
-    <>
-      {/* {mapCurrentUser} */}
+    <div>
       {mapData}
-    </>
+    </div>
   );
 }
