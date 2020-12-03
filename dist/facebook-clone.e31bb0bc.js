@@ -33853,12 +33853,11 @@ if ("development" !== "production") {
     style: _propTypes.default.object
   });
 }
-},{"react-router":"node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"node_modules/react/index.js","history":"node_modules/history/esm/history.js","prop-types":"node_modules/prop-types/index.js","tiny-warning":"node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"faceBookData.json":[function(require,module,exports) {
+},{"react-router":"node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"node_modules/react/index.js","history":"node_modules/history/esm/history.js","prop-types":"node_modules/prop-types/index.js","tiny-warning":"node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"postData.json":[function(require,module,exports) {
 module.exports = [{
   "text": "Good morning everyone! New day again",
   "postId": 1606824401671,
-  "id": 1606717683413,
-  "image": "https://i.ibb.co/yhH1Fcx/IMG-20201129-162326.jpg",
+  "image": "https://iili.io/FN9swb.jpg",
   "likes": [{
     "likedId": 1606824509250,
     "userId": 1606824535563
@@ -33871,7 +33870,7 @@ module.exports = [{
     "userCommented": "Ifaliana",
     "textMessage": "Hi!",
     "commentedDate": "12/08/2020",
-    "profilePicture": "https://iili.io/FN9swb.jpg"
+    "profilePicture": "https://iili.io/FN9SP2.jpg"
   }, {
     "id": 1606800819374,
     "userCommented": "Fytia",
@@ -33898,7 +33897,7 @@ exports.Context = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _faceBookData = _interopRequireDefault(require("./faceBookData.json"));
+var _postData = _interopRequireDefault(require("./postData.json"));
 
 var _currentUserData = _interopRequireDefault(require("./currentUserData.json"));
 
@@ -33911,57 +33910,70 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 const Context = _react.default.createContext();
 
 exports.Context = Context;
+const initialValue = {
+  facebookData: _postData.default,
+  currentUser: _currentUserData.default
+};
+console.log(initialValue);
 
 function ContextProvider({
   children
 }) {
-  // const [facebookData, setFacebookData] = useState(allFacebookData);
-  // const [currentUser, setCurrentUser] = useState(currentData)
-  // const [newComment, setNewComment] = useState({});
   // const [state, dispatch] = reducer();
   // const {facebookData, currentUser, newComment} = state;
+  //  cons [state, dispatch] = useReducer(func, initialValue)
   const [state, dispatch] = (0, _react.useReducer)((state, action) => {
     switch (action.type) {
-      case "All_DATA":
-        return { ...state,
-          facebookData: state.allFacebookData
-        };
-        break;
-
-      case "CURRENT_USER":
-        return { ...state,
-          currentUser: state.currentUserData
-        };
-        break;
-
+      // case "All_DATA":
+      //   return { ...state, facebookData: state.postData };
+      //   break;
+      // case "CURRENT_USER":
+      //   return { ...state, currentUser: state.currentUserData };
+      //   break;
       case "NEW_COMMENT":
+        const newPosts = state.facebookData.map(post => {
+          console.log(action);
+          console.log(post);
+
+          if (post.postId === action.postId) {
+            // update the post
+            return { ...post,
+              comments: [...post.comments, action.comment]
+            };
+          }
+
+          return post;
+        });
         return { ...state,
-          newComment: state.newComment
+          posts: newPosts
+        };
+        break;
+
+      case "NEW_POST":
+        return { ...state,
+          facebookData: state.facebookData
         };
 
       default:
-        return state;
+        {
+          console.log("No action defined for", actio.type);
+          break;
+        }
     }
-  }, {
-    facebookData: [],
-    currentUser: [],
-    newComment: {}
-  });
-  (0, _react.useEffect)(() => {
-    // setFacebookData(allFacebookData)
-    // setCurrentUser(currentData)
-    dispatch({
-      type: "All_DATA",
-      facebookData: [..._faceBookData.default]
-    });
-    dispatch({
-      type: "CURRENT_USER",
-      currentUser: [..._currentUserData.default]
-    });
-    dispatch({
-      type: "NEW_COMMENT"
-    });
-  }, [facebookData, currentUser]);
+
+    return state;
+  }, // facebookData: [],
+  // currentUser: [],
+  // newComment: {},
+  initialValue); // const [facebookData, currentUser] = state
+  // useEffect(() => {
+  //   // setFacebookData(postData)
+  //   // setCurrentUser(currentData)
+  //   dispatch({ type: "All_DATA", facebookData: [...postData] });
+  //   dispatch({ type: "CURRENT_USER", currentUser: [...currentUserData] });
+  //   dispatch({ type: "NEW_COMMENT" });
+  // }, []);
+
   return /*#__PURE__*/_react.default.createElement(Context.Provider, {
     value: {
       state,
@@ -33969,7 +33981,7 @@ function ContextProvider({
     }
   }, children);
 }
-},{"react":"node_modules/react/index.js","./faceBookData.json":"faceBookData.json","./currentUserData.json":"currentUserData.json"}],"node_modules/shallowequal/index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./postData.json":"postData.json","./currentUserData.json":"currentUserData.json"}],"node_modules/shallowequal/index.js":[function(require,module,exports) {
 //
 
 module.exports = function shallowEqual(objA, objB, compare, compareContext) {
@@ -35926,9 +35938,9 @@ function Comment() {
       profilePicture: "https://iili.io/FN9rc7.jpg",
       likes: []
     };
-    const findId = facebookData.find(data => data.id);
+    const findId = state.facebookData.find(data => data.id);
     dispatch({
-      type: "All_DATA",
+      type: "NEW_COMMENT",
       allFacebookData: [...findId.comments, newComment]
     });
     findId.comments = [...findId.comments, newComment];
@@ -35940,18 +35952,19 @@ function Comment() {
     onSubmit: handleSubmit
   }, /*#__PURE__*/_react.default.createElement("input", {
     type: "text",
-    name: "comment"
+    name: "comment",
+    placeholder: "Add a comment... "
   }), /*#__PURE__*/_react.default.createElement("button", {
     type: "submit"
   }, "Post"));
 }
-},{"react":"node_modules/react/index.js","./Context":"Context.js"}],"FacebookContent.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./Context":"Context.js"}],"Feed.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = FacebookContent;
+exports.default = Feed;
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -35967,15 +35980,14 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function FacebookContent() {
-  const {
-    state,
-    dispatch
-  } = (0, _react.useContext)(_Context.Context);
+function Feed() {
   const {
     facebookData,
-    currentUser
-  } = state;
+    currentUser,
+    state,
+    dispatch
+  } = (0, _react.useContext)(_Context.Context); // const { facebookData, currentUser } = state;
+
   const MainContent = _styledComponents.default.div`
         ul {
             display: flex;
@@ -36015,51 +36027,30 @@ function FacebookContent() {
       border-radius: 50%;
     }
   `;
-  console.log(currentUser);
-  const mapCurrentUser = currentUser.map(user => {
-    return /*#__PURE__*/_react.default.createElement(User, null, /*#__PURE__*/_react.default.createElement("li", {
+  const mapCurrentUser = state.currentUser.map(user => {
+    return /*#__PURE__*/_react.default.createElement(User, {
       key: user.id
-    }, /*#__PURE__*/_react.default.createElement("img", {
+    }, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("img", {
       src: user.profilePicture,
       className: "profilePicture"
     }), /*#__PURE__*/_react.default.createElement("span", null, user.userName)), /*#__PURE__*/_react.default.createElement("li", null, user.date));
-  }); // const mapData = facebookData.map((data) => {
-  // return (
-  //   <MainContent>
-
-  {
-    /* <p key={data.postId}>{data.text}</p>
-    <img src={data.image} alt="commentor" />
-    <div>
-     {data.comments.map((comment) => {
-       return (
-         <nav key={comment.id}>
-           <ul>
-             <li>
-               <img
-                 src={comment.profilePicture}
-                 className="profilePicture"
-               />
-               <span>{comment.userCommented}</span>
-             </li>
-             <li>{comment.commentedDate}</li>
-           </ul>
-           <ul>
-             <li>{comment.textMessage}</li>
-             <li>{comment.message}</li>
-           </ul>
-         </nav>
-       );
-     })}
-    </div> */
-  }
-  {
-    /* <Comment />
-    </MainContent> */
-  } // );
-  // });
-
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, mapCurrentUser);
+  });
+  const mapData = state.facebookData.map(data => {
+    return /*#__PURE__*/_react.default.createElement(MainContent, {
+      key: data.postId
+    }, mapCurrentUser, /*#__PURE__*/_react.default.createElement("p", null, data.text), /*#__PURE__*/_react.default.createElement("img", {
+      src: data.image,
+      alt: "commentor"
+    }), /*#__PURE__*/_react.default.createElement("button", null, "Likes"), /*#__PURE__*/_react.default.createElement("div", null, data.comments.map(comment => {
+      return /*#__PURE__*/_react.default.createElement("nav", {
+        key: comment.id
+      }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("img", {
+        src: comment.profilePicture,
+        className: "profilePicture"
+      }), /*#__PURE__*/_react.default.createElement("span", null, comment.userCommented)), /*#__PURE__*/_react.default.createElement("li", null, comment.commentedDate)), /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, comment.textMessage), /*#__PURE__*/_react.default.createElement("li", null, comment.message)));
+    })), /*#__PURE__*/_react.default.createElement(_Comment.default, null));
+  });
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, mapData);
 }
 },{"react":"node_modules/react/index.js","./Context":"Context.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js","./Comment":"Comment.js"}],"AddingPost.js":[function(require,module,exports) {
 "use strict";
@@ -36097,14 +36088,14 @@ function AddingPost() {
       image: inputValue,
       text: text,
       comments: [],
-      likes: [] // commentedDate: "14/08/2020",
-      // userCommented: "Loic",
-      // profilePicture: "https://iili.io/FN9rc7.jpg",
+      likes: [] //   commentedDate: "14/08/2020",
+      //   userCommented: "Loic",
+      //   profilePicture: "https://iili.io/FN9rc7.jpg",
 
     };
+    state.facebookData.push(newLists);
     dispatch({
-      type: "All_DATA",
-      allFacebookData: [...facebookData, newLists]
+      type: "NEW_POST"
     });
   };
 
@@ -36128,8 +36119,7 @@ function AddingPost() {
     cols: "33"
   }), /*#__PURE__*/_react.default.createElement("label", null, "Picture url:", /*#__PURE__*/_react.default.createElement("input", {
     type: "url",
-    name: "pictureUrl",
-    placeholder: "Add a comment... "
+    name: "pictureUrl"
   })), /*#__PURE__*/_react.default.createElement("button", null, "Post")));
 }
 },{"react":"node_modules/react/index.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js","./Context":"Context.js"}],"UserName.js":[function(require,module,exports) {
@@ -36190,7 +36180,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _reactRouterDom = require("react-router-dom");
 
-var _FacebookContent = _interopRequireDefault(require("./FacebookContent"));
+var _Feed = _interopRequireDefault(require("./Feed"));
 
 var _styledComponents = _interopRequireDefault(require("styled-components"));
 
@@ -36209,26 +36199,38 @@ function App() {
             align-items: baseline;
         }
 
+        ul {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: baseline;    
+        }
+
+        li {
+            list-style: none;
+            padding-inline-start: 32px
+        }
+
         a {
             text-decoration: none;
         }
     `;
-  return /*#__PURE__*/_react.default.createElement(DivWrapper, null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("h1", null, "OnjaBook"), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+  return /*#__PURE__*/_react.default.createElement(DivWrapper, null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("h1", null, "OnjaBook"), /*#__PURE__*/_react.default.createElement("nav", null, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/"
-  }, "Feed"), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+  }, "Feed")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/post"
-  }, "Add a post"), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+  }, "Add a post")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/userName"
-  }, "UserName")), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Switch, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+  }, "UserName"))))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Switch, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     exact: true,
     path: "/"
-  }, /*#__PURE__*/_react.default.createElement(_FacebookContent.default, null)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+  }, /*#__PURE__*/_react.default.createElement(_Feed.default, null)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/post"
   }, /*#__PURE__*/_react.default.createElement(_AddingPost.default, null)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/userName"
   }, /*#__PURE__*/_react.default.createElement(_UserName.default, null)))));
 }
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./FacebookContent":"FacebookContent.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js","./AddingPost":"AddingPost.js","./UserName":"UserName.js"}],"index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./Feed":"Feed.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js","./AddingPost":"AddingPost.js","./UserName":"UserName.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -36272,7 +36274,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50182" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60447" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

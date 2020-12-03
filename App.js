@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Route, Switch } from 'react-router-dom'
-import FacebookContent from './FacebookContent';
+import Feed from './Feed';
 import Styled from "styled-components";
 import AddingPost from './AddingPost';
 import UserName from './UserName';
@@ -15,6 +15,18 @@ export default function App() {
             align-items: baseline;
         }
 
+        ul {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: baseline;    
+        }
+
+        li {
+            list-style: none;
+            padding-inline-start: 32px
+        }
+
         a {
             text-decoration: none;
         }
@@ -24,14 +36,24 @@ export default function App() {
         <DivWrapper>
             <header>
                 <h1>OnjaBook</h1>
-                <Link to="/">Feed</Link>
-                <Link to="/post">Add a post</Link>
-                <Link to="/userName">UserName</Link>
+                <nav>
+                    <ul>
+                        <li>
+                            <Link to="/">Feed</Link>
+                        </li>
+                        <li>
+                            <Link to="/post">Add a post</Link>
+                        </li>
+                        <li>
+                            <Link to="/userName">UserName</Link>
+                        </li>
+                    </ul>
+                </nav>
             </header>
             <div>
                 <Switch>
                     <Route exact path="/">
-                        <FacebookContent />
+                        <Feed />
                     </Route>
                     <Route path="/post">
                         <AddingPost />

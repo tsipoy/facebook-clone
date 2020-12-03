@@ -19,11 +19,13 @@ export default function Comment() {
           profilePicture: "https://iili.io/FN9rc7.jpg",
           likes: [],
         };
-        const findId = facebookData.find((data) => data.id);
+
+        const findId = state.facebookData.find((data) => data.id);
         dispatch({
-          type: "All_DATA",
-          allFacebookData: [...findId.comments, newComment],
+          type: "NEW_COMMENT",
+          allFacebookData: [...findId.comments, newComment]
         });
+
         findId.comments = [...findId.comments, newComment];
         form.reset();
         console.log(newComment);
@@ -31,7 +33,7 @@ export default function Comment() {
     
     return (
         <form onSubmit={handleSubmit}>
-            <input type="text" name="comment"/>
+            <input type="text" name="comment" placeholder="Add a comment... "/>
             <button type="submit">Post</button>
         </form>
     )

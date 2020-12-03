@@ -3,9 +3,9 @@ import { Context } from "./Context";
 import Styled from "styled-components";
 import Comment from "./Comment";
 
-export default function FacebookContent() {
-  const {state, dispatch} = useContext(Context);
-  const { facebookData, currentUser } = state;
+export default function Feed() {
+  const { facebookData, currentUser, state, dispatch } = useContext(Context);
+  // const { facebookData, currentUser } = state;
   const MainContent = Styled.div`
         ul {
             display: flex;
@@ -47,11 +47,11 @@ export default function FacebookContent() {
     }
   `;
 
-  console.log(currentUser);
-  const mapCurrentUser = currentUser.map((user) => {
+
+  const mapCurrentUser = state.currentUser.map((user) => {
     return (
-      <User>
-        <li key={user.id}>
+      <User key={user.id}>
+        <li>
           <img src={user.profilePicture} className="profilePicture" />
           <span>{user.userName}</span>
         </li>
@@ -60,11 +60,13 @@ export default function FacebookContent() {
     );
   });
 
-  // const mapData = facebookData.map((data) => {
-    // return (
-    //   <MainContent>
-        {/* <p key={data.postId}>{data.text}</p>
+  const mapData = state.facebookData.map((data) => {
+    return (
+      <MainContent key={data.postId}>
+        {mapCurrentUser}
+        <p>{data.text}</p>
         <img src={data.image} alt="commentor" />
+        <button>Likes</button>
         <div>
           {data.comments.map((comment) => {
             return (
@@ -86,15 +88,15 @@ export default function FacebookContent() {
               </nav>
             );
           })}
-        </div> */}
-        {/* <Comment />
-      </MainContent> */}
-    // );
-  // });
+        </div>
+        <Comment />
+      </MainContent>
+    );
+  });
   return (
     <>
-      {mapCurrentUser}
-      {/* {mapData} */}
+      {/* {mapCurrentUser} */}
+      {mapData}
     </>
   );
 }
