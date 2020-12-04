@@ -3,7 +3,7 @@ import { Link, Route, Switch } from 'react-router-dom'
 import Feed from './Feed';
 import Styled from "styled-components";
 import AddingPost from './AddingPost';
-import UserName from './UserName';
+import Options from "./Options"
 
 export default function App() {
 
@@ -59,7 +59,7 @@ export default function App() {
                         <AddingPost />
                     </Route>
                     <Route path="/userName">
-                        <UserName />
+                        <Options />
                     </Route>
                 </Switch>
             </div>

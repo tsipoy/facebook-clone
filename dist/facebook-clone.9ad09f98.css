@@ -2,6 +2,10 @@ body {
     margin: 0;
 }
 
+#root {
+    padding-block-end: 32px;
+}
+
 
 @media(min-width: 700px) {
     #root {

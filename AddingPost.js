@@ -47,11 +47,12 @@ export default function AddingPost() {
           name="thought"
           placeholder="Say what’s on your mind..."
           rows="5"
-          cols="33"
+          cols="37"
+          required
         ></textarea>
         <label>
           Picture url:
-          <input type="url" name="pictureUrl" />
+          <input type="url" name="pictureUrl" required/>
         </label>
         <button>Post</button>
       </form>

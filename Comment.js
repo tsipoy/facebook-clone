@@ -1,5 +1,15 @@
 import React, { useContext } from 'react'
+import styled from 'styled-components';
 import { Context } from './Context'
+
+const FormStyle = styled.form`
+background-color: gray;
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+padding: 10px;
+border-radius: 5px;
+`;
 
 export default function Comment({data}) {
     const { state, dispatch } = useContext(Context);
@@ -32,9 +42,9 @@ export default function Comment({data}) {
       };
     
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" name="comment" placeholder="Add a comment... "/>
+        <FormStyle onSubmit={handleSubmit}>
+            <input type="text" name="comment" placeholder="Add a comment... " required/>
             <button type="submit">Post</button>
-        </form>
+        </FormStyle>
     )
 }

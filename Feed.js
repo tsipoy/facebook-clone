@@ -68,7 +68,7 @@ export default function Feed() {
     return (
       <MainContent key={data.postId}>
         {mapCurrentUser}
-        <p>{data.text}</p>
+        <h3>{data.text}</h3>
         <img src={data.image} alt="commentor" />
         <button>Likes</button>
         <span>{data.likes.length}</span>
@@ -82,7 +82,7 @@ export default function Feed() {
                       src={comment.profilePicture}
                       className="profilePicture"
                     />
-                    <span>{comment.userCommented}</span>
+                    {comment.userCommented}
                   </li>
                   <li>{comment.commentedDate}</li>
                 </ul>

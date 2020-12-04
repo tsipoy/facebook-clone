@@ -33867,7 +33867,7 @@ module.exports = [{
   }],
   "comments": [{
     "commentId": 1606800789249,
-    "userCommented": "Ifaliana",
+    "userCommented": "Shaun",
     "textMessage": "Hi!",
     "commentedDate": "12/08/2020",
     "profilePicture": "https://iili.io/FN9SP2.jpg"
@@ -35905,11 +35905,24 @@ exports.default = Comment;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _styledComponents = _interopRequireDefault(require("styled-components"));
+
 var _Context = require("./Context");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const FormStyle = _styledComponents.default.form`
+background-color: gray;
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+padding: 10px;
+border-radius: 5px;
+`;
 
 function Comment({
   data
@@ -35946,17 +35959,18 @@ function Comment({
     console.log(newComment);
   };
 
-  return /*#__PURE__*/_react.default.createElement("form", {
+  return /*#__PURE__*/_react.default.createElement(FormStyle, {
     onSubmit: handleSubmit
   }, /*#__PURE__*/_react.default.createElement("input", {
     type: "text",
     name: "comment",
-    placeholder: "Add a comment... "
+    placeholder: "Add a comment... ",
+    required: true
   }), /*#__PURE__*/_react.default.createElement("button", {
     type: "submit"
   }, "Post"));
 }
-},{"react":"node_modules/react/index.js","./Context":"Context.js"}],"Feed.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js","./Context":"Context.js"}],"Feed.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36040,7 +36054,7 @@ function Feed() {
   const mapData = state.facebookData.map(data => {
     return /*#__PURE__*/_react.default.createElement(MainContent, {
       key: data.postId
-    }, mapCurrentUser, /*#__PURE__*/_react.default.createElement("p", null, data.text), /*#__PURE__*/_react.default.createElement("img", {
+    }, mapCurrentUser, /*#__PURE__*/_react.default.createElement("h3", null, data.text), /*#__PURE__*/_react.default.createElement("img", {
       src: data.image,
       alt: "commentor"
     }), /*#__PURE__*/_react.default.createElement("button", null, "Likes"), /*#__PURE__*/_react.default.createElement("span", null, data.likes.length), /*#__PURE__*/_react.default.createElement("div", null, data.comments.map(comment => {
@@ -36049,7 +36063,7 @@ function Feed() {
       }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("img", {
         src: comment.profilePicture,
         className: "profilePicture"
-      }), /*#__PURE__*/_react.default.createElement("span", null, comment.userCommented)), /*#__PURE__*/_react.default.createElement("li", null, comment.commentedDate)), /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, comment.textMessage), /*#__PURE__*/_react.default.createElement("li", null, comment.message)));
+      }), comment.userCommented), /*#__PURE__*/_react.default.createElement("li", null, comment.commentedDate)), /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, comment.textMessage), /*#__PURE__*/_react.default.createElement("li", null, comment.message)));
     })), /*#__PURE__*/_react.default.createElement(_Comment.default, {
       data: data
     }));
@@ -36120,13 +36134,15 @@ function AddingPost() {
     name: "thought",
     placeholder: "Say what\u2019s on your mind...",
     rows: "5",
-    cols: "33"
+    cols: "37",
+    required: true
   }), /*#__PURE__*/_react.default.createElement("label", null, "Picture url:", /*#__PURE__*/_react.default.createElement("input", {
     type: "url",
-    name: "pictureUrl"
+    name: "pictureUrl",
+    required: true
   })), /*#__PURE__*/_react.default.createElement("button", null, "Post")));
 }
-},{"react":"node_modules/react/index.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js","./Context":"Context.js"}],"UserName.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js","./Context":"Context.js"}],"Options.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36193,7 +36209,7 @@ var _styledComponents = _interopRequireDefault(require("styled-components"));
 
 var _AddingPost = _interopRequireDefault(require("./AddingPost"));
 
-var _UserName = _interopRequireDefault(require("./UserName"));
+var _Options = _interopRequireDefault(require("./Options"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36235,9 +36251,9 @@ function App() {
     path: "/post"
   }, /*#__PURE__*/_react.default.createElement(_AddingPost.default, null)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/userName"
-  }, /*#__PURE__*/_react.default.createElement(_UserName.default, null)))));
+  }, /*#__PURE__*/_react.default.createElement(_Options.default, null)))));
 }
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./Feed":"Feed.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js","./AddingPost":"AddingPost.js","./UserName":"UserName.js"}],"index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./Feed":"Feed.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js","./AddingPost":"AddingPost.js","./Options":"Options.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -36281,7 +36297,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50023" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53921" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
