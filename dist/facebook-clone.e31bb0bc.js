@@ -36008,6 +36008,10 @@ function Feed() {
             max-width: 10%;
             border-radius: 50%;
         }
+
+        button {
+          margin-inline-end: 16px;
+        }
     `;
   const User = _styledComponents.default.ul`
     display: flex;
@@ -36039,7 +36043,7 @@ function Feed() {
     }, mapCurrentUser, /*#__PURE__*/_react.default.createElement("p", null, data.text), /*#__PURE__*/_react.default.createElement("img", {
       src: data.image,
       alt: "commentor"
-    }), /*#__PURE__*/_react.default.createElement("button", null, "Likes"), /*#__PURE__*/_react.default.createElement("div", null, data.comments.map(comment => {
+    }), /*#__PURE__*/_react.default.createElement("button", null, "Likes"), /*#__PURE__*/_react.default.createElement("span", null, data.likes.length), /*#__PURE__*/_react.default.createElement("div", null, data.comments.map(comment => {
       return /*#__PURE__*/_react.default.createElement("nav", {
         key: comment.commentId
       }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("img", {

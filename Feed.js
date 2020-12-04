@@ -28,6 +28,10 @@ export default function Feed() {
             max-width: 10%;
             border-radius: 50%;
         }
+
+        button {
+          margin-inline-end: 16px;
+        }
     `;
 
   const User = Styled.ul`
@@ -67,6 +71,7 @@ export default function Feed() {
         <p>{data.text}</p>
         <img src={data.image} alt="commentor" />
         <button>Likes</button>
+        <span>{data.likes.length}</span>
         <div>
           {data.comments.map((comment) => {
             return (
