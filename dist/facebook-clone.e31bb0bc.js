@@ -33866,13 +33866,13 @@ module.exports = [{
     "userId": 1606824614708
   }],
   "comments": [{
-    "id": 1606800789249,
+    "commentId": 1606800789249,
     "userCommented": "Ifaliana",
     "textMessage": "Hi!",
     "commentedDate": "12/08/2020",
     "profilePicture": "https://iili.io/FN9SP2.jpg"
   }, {
-    "id": 1606800819374,
+    "commentId": 1606800819374,
     "userCommented": "Fytia",
     "textMessage": "Good morning",
     "commentedDate": "13/08/2020",
@@ -33914,7 +33914,6 @@ const initialValue = {
   facebookData: _postData.default,
   currentUser: _currentUserData.default
 };
-console.log(initialValue);
 
 function ContextProvider({
   children
@@ -33929,7 +33928,7 @@ function ContextProvider({
           if (post.postId === action.postId) {
             // update the post
             return { ...post,
-              comments: [...post.comments, action.comment]
+              comments: [...post.comments, action.comments]
             };
           }
 
@@ -33941,13 +33940,16 @@ function ContextProvider({
         break;
 
       case "NEW_POST":
-        return { ...state,
-          facebookData: state.facebookData
-        };
+        {
+          return { ...state,
+            posts: [...state.facebookData, action.newPost]
+          };
+        }
+      // return { ...state, facebookData: state.facebookData };
 
       default:
         {
-          console.log("No action defined for", actio.type);
+          console.log("No action defined for", action.type);
           break;
         }
     }
@@ -35909,11 +35911,16 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function Comment() {
+function Comment({
+  data
+}) {
   const {
     state,
     dispatch
-  } = (0, _react.useContext)(_Context.Context); // const { newComment } = state;
+  } = (0, _react.useContext)(_Context.Context);
+  const {
+    facebookData
+  } = state;
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -35929,10 +35936,10 @@ function Comment() {
       profilePicture: "https://iili.io/FN9rc7.jpg",
       likes: []
     };
-    const findId = state.facebookData.find(data => data.id);
+    const findId = state.facebookData.find(facebookData => facebookData.postId === data.postId);
     dispatch({
       type: "NEW_COMMENT",
-      allFacebookData: [...findId.comments, newComment]
+      posts: [...findId.comments, newComment]
     });
     findId.comments = [...findId.comments, newComment];
     form.reset();
@@ -36020,7 +36027,7 @@ function Feed() {
   `;
   const mapCurrentUser = state.currentUser.map(user => {
     return /*#__PURE__*/_react.default.createElement(User, {
-      key: user.id
+      key: user.userNameId
     }, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("img", {
       src: user.profilePicture,
       className: "profilePicture"
@@ -36034,12 +36041,14 @@ function Feed() {
       alt: "commentor"
     }), /*#__PURE__*/_react.default.createElement("button", null, "Likes"), /*#__PURE__*/_react.default.createElement("div", null, data.comments.map(comment => {
       return /*#__PURE__*/_react.default.createElement("nav", {
-        key: comment.id
+        key: comment.commentId
       }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("img", {
         src: comment.profilePicture,
         className: "profilePicture"
       }), /*#__PURE__*/_react.default.createElement("span", null, comment.userCommented)), /*#__PURE__*/_react.default.createElement("li", null, comment.commentedDate)), /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, comment.textMessage), /*#__PURE__*/_react.default.createElement("li", null, comment.message)));
-    })), /*#__PURE__*/_react.default.createElement(_Comment.default, null));
+    })), /*#__PURE__*/_react.default.createElement(_Comment.default, {
+      data: data
+    }));
   });
   return /*#__PURE__*/_react.default.createElement("div", null, mapData);
 }
@@ -36268,7 +36277,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60447" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50023" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

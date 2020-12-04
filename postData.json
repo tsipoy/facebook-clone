@@ -15,14 +15,14 @@
         ],
         "comments": [
             {
-                "id": 1606800789249,
+                "commentId": 1606800789249,
                 "userCommented": "Ifaliana",
                 "textMessage": "Hi!",
                 "commentedDate": "12/08/2020",
                 "profilePicture": "https://iili.io/FN9SP2.jpg"
             },
             {
-                "id": 1606800819374,
+                "commentId": 1606800819374,
                 "userCommented": "Fytia",
                 "textMessage": "Good morning",
                 "commentedDate": "13/08/2020",

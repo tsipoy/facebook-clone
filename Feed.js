@@ -50,7 +50,7 @@ export default function Feed() {
 
   const mapCurrentUser = state.currentUser.map((user) => {
     return (
-      <User key={user.id}>
+      <User key={user.userNameId}>
         <li>
           <img src={user.profilePicture} className="profilePicture" />
           <span>{user.userName}</span>
@@ -70,7 +70,7 @@ export default function Feed() {
         <div>
           {data.comments.map((comment) => {
             return (
-              <nav key={comment.id}>
+              <nav key={comment.commentId}>
                 <ul>
                   <li>
                     <img
@@ -89,12 +89,13 @@ export default function Feed() {
             );
           })}
         </div>
-        <Comment />
+        <Comment data={data} />
       </MainContent>
     );
   });
   return (
     <div>
+      {/* {mapCurrentUser} */}
       {mapData}
     </div>
   );

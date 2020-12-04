@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { Context } from './Context'
 
-export default function Comment() {
+export default function Comment({data}) {
     const { state, dispatch } = useContext(Context);
-    // const { newComment } = state;
+    const { facebookData } = state;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,10 +20,10 @@ export default function Comment() {
           likes: [],
         };
 
-        const findId = state.facebookData.find((data) => data.id);
+        const findId = state.facebookData.find((facebookData) => facebookData.postId === data.postId);
         dispatch({
           type: "NEW_COMMENT",
-          allFacebookData: [...findId.comments, newComment]
+          posts: [...findId.comments, newComment]
         });
 
         findId.comments = [...findId.comments, newComment];

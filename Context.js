@@ -8,7 +8,6 @@ const initialValue = {
   facebookData: postData,
   currentUser: currentUserData,
 };
-console.log(initialValue);
 
 function ContextProvider({ children }) {
   const [state, dispatch] = useReducer(
@@ -22,7 +21,7 @@ function ContextProvider({ children }) {
               // update the post
               return {
                 ...post,
-                comments: [...post.comments, action.comment],
+                comments: [...post.comments, action.comments],
               };
             }
             return post;
@@ -32,10 +31,16 @@ function ContextProvider({ children }) {
             posts: newPosts,
           };
           break;
-        case "NEW_POST":
-          return { ...state, facebookData: state.facebookData };
+        case "NEW_POST": {
+          return {
+            ...state,
+            posts: [...state.facebookData, action.newPost],
+          };
+        }
+        // return { ...state, facebookData: state.facebookData };
+
         default: {
-          console.log("No action defined for", actio.type);
+          console.log("No action defined for", action.type);
           break;
         }
       }
